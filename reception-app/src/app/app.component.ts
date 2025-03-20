@@ -7,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  
   title = 'reception-app';
+
+  tooltipe = 'Здесь могла быть ваша подсказка'
+
+  showMessage(){
+    alert('Hiu');
+  }
 }
