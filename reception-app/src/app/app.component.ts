@@ -8,11 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   
-  title = 'reception-app';
+  public title = 'reception-app';
 
-  tooltipe = 'Здесь могла быть ваша подсказка'
+  public tooltipe = 'Здесь могла быть ваша подсказка'
 
-  showMessage(){
-    alert('Hiu');
+  public showMessage(){
+    alert('Привет! Зачем нажал!');
   }
 }
