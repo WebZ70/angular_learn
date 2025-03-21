@@ -8,10 +8,10 @@
     
     <input type="number" class="calculator__input" [(ngModel)]="second">
 
-    <span class="calculator__result">{{ result ? result : 'Нажмите рассчитать' }}</span>
+    <!-- <span class="calculator__result">{{ result ? result : 'Нажмите рассчитать' }}</span> -->
+    <button (click)="calculation()">=</button>
+    <input type="number" [(ngModel)]="result" disabled>
 
-    <button (click)="calculation()">Рассчитать</button>
-
-    <input type="text" [(ngModel)]="firstname" placeholder="Введи имя">
-    <p>Привет, {{ firstname }}</p>
+    <!-- <input type="text" [(ngModel)]="firstname" placeholder="Введи имя">
+    <p>Привет, {{ firstname }}</p> -->
 </div>
