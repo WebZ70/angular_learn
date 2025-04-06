@@ -1,24 +1,30 @@
 import { Component } from '@angular/core';
+import { first, retry } from 'rxjs';
 
 interface CalcGroup {
-  first: number
+  first: CalcVar,
+  second: CalcVar,
+  operation: CalcOperations,
+}
+
+interface CalcVar {
+  value: number,
+  modificator: CalcModifiers,
 }
 
 enum CalcOperations {
   plus = '+',
   minus = '-',
   multiply = '*',
-  divide = '/'
+  divide = '/',
 }
 
 enum CalcModifiers {
   none = 'none',
   sin = 'sin',
   cos = 'cos',
-  square = 'square'
+  square = 'square',
 }
-
-
 
 @Component({
   selector: 'app-component-learn',
@@ -28,39 +34,93 @@ enum CalcModifiers {
 })
 export class ComponentLearnComponent {
 
-  public firstname?: string;
-  public first: number = 0;
-  public second: number = 0;
-  public result?: number;
-  public operation: string = '+'
-  public operations: string[] = ['+','-','*','/']
+  public calcOperators = CalcOperations
+  public calcModifires = CalcModifiers
+  public history: string[] = []
+  public operationsBetweenGroups: CalcOperations[] = []
+  public result?: number
 
-  // public story: string = 'Пусто';
-  // public stories: string[] = [];
-
-
-  // public pushHistory(first:number, second:number, operation:string, result?:number){
-  //   this.stories?.push(first + ' ' + operation + ' ' + second + ' = ' + result)
-  // }
-
-  public calculation(){
-    
-    switch(this.operation) {
-      case '+':
-        this.result = this.first + this.second
-        break;
-      case '-':
-        this.result = this.first - this.second
-        break;
-      case '*':
-        this.result = this.first * this.second
-        break;
-      case '/':
-        this.result = this.first / this.second
-        break;
-        
+  public calcGroups: CalcGroup[] = [
+    {
+      first: {
+        value: 1,
+        modificator: CalcModifiers.none
+      },
+      second: {
+        value: 1,
+        modificator: CalcModifiers.none
+      },
+      operation: CalcOperations.plus
     }
-    // this.pushHistory(this.first, this.second, this.operation, this.result)
+  ]
+
+  public addGroup(index: number): void {
+    this.calcGroups.splice(index, 0,{
+      first: {
+        value: 0,
+        modificator: CalcModifiers.none
+      },
+      second: {
+        value: 0,
+        modificator: CalcModifiers.none
+      },
+      operation: CalcOperations.plus
+    })
+    this.operationsBetweenGroups.splice(index, 0, CalcOperations.plus)
+  }
+
+  public removeGroup(index: number): void {
+    this.calcGroups.splice(index, 1)
+    // this.operationsBetweenGroups.splice(index, 1)
+  }
+
+  public calcGroup() {
+    let result = 0
+    let tempHistory: string[] = [];
+    this.calcGroups.forEach((group, i) => {
+      if (i == 0) {
+        result = this.calculation(this.calcValueWuthModif(group.first), this.calcValueWuthModif(group.second), group.operation)
+      } else {
+        let tempResult = this.calculation(this.calcValueWuthModif(group.first), this.calcValueWuthModif(group.second), group.operation)
+        result = this.calculation(result, tempResult, this.operationsBetweenGroups[i-1])
+      }
+      tempHistory.push(
+        `(
+        ${group.first.modificator != CalcModifiers.none ? group.first.modificator : ''} ${group.first.value}
+        ${group.operation}
+        ${group.second.modificator != CalcModifiers.none ? group.second.modificator : ''} ${group.second.value}
+        )` 
+      ) 
+    })
+    tempHistory.push(`= ${result}`)
+    this.history.push(tempHistory.join(' '))
+
+    this.result = result
+  }
+
+  public calcValueWuthModif(value: CalcVar): number {
+    switch(value.modificator) {
+      case CalcModifiers.none:
+        return value.value
+      case CalcModifiers.cos:
+        return Math.cos(value.value)
+      case CalcModifiers.sin:
+        return Math.sin(value.value)
+      case CalcModifiers.square:
+        return Math.pow(value.value, 2)
+    }
+  }
+  public calculation(first: number, second: number, operation: CalcOperations): number {
+    switch(operation) {
+      case CalcOperations.plus:
+        return first + second
+      case CalcOperations.minus:
+        return first - second
+      case CalcOperations.multiply:
+        return first * second
+      case CalcOperations.divide:
+        return first / second
+    }
   }
 
 }

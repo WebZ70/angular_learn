@@ -1,16 +1,42 @@
 <div class="calculator">
     <!-- Двустороннее связывание. Обновляет данные в компоненте при ввод значений в поле пользователем и наоборот обновляет из компонента при изменеии поля и т.д. класса компонента -->
-    <input type="number" class="calculator__input" [(ngModel)]="first">
-    
-    <select class="calculation__select" [(ngModel)]="operation">
-        <option [value]="operation" *ngFor="let operation of operations">{{ operation }}</option>
-    </select>
-    
-    <input type="number" class="calculator__input" [(ngModel)]="second">
+    <ng-container *ngFor="let group of calcGroups; let i = index">
+        <div class="calculator__container">
+            <select class="calculation__modif" [(ngModel)]="group.first.modificator">
+                <option [value]="modificator.value" *ngFor="let modificator of calcModifires | keyvalue">
+                    {{ modificator.value }}
+                </option>
+            </select>
+            <input type="number" class="calculator__input" [(ngModel)]="group.first.value">
+            <select class="calculation__select" [(ngModel)]="group.operation">
+                <option [value]="operation.value" *ngFor="let operation of calcOperators | keyvalue">
+                    {{ operation.value }}
+                </option>
+            </select>
+            <select class="calculation__modif" [(ngModel)]="group.second.modificator">
+                <option [value]="modificator.value" *ngFor="let modificator of calcModifires | keyvalue">
+                    {{ modificator.value }}
+                </option>
+            </select>
+            <input type="number" class="calculator__input" [(ngModel)]="group.second.value">
+            <select class="calculation__select" [(ngModel)]="operationsBetweenGroups[i]" *ngIf="operationsBetweenGroups.length > i">
+                <option [value]="operation.value" *ngFor="let operation of calcOperators | keyvalue">
+                    {{ operation.value }}
+                </option>
+            </select>
 
-    <!-- <span class="calculator__result">{{ result ? result : 'Нажмите рассчитать' }}</span> -->
-    <button (click)="calculation()">=</button>
+            <button (click)="addGroup(i+1)">+</button>
+            <button *ngIf="i > 0" (click)="removeGroup(i)">-</button>
+        </div>
+    </ng-container>
+    <button (click)="calcGroup()">=</button>
     <input type="number" [(ngModel)]="result" disabled>
+    <div>
+        <div *ngFor="let obj of history; let i = index"> {{ i + 1 }} {{ obj }}</div>
+    </div>
+
+    
+    
 
     <!-- <input type="text" [(ngModel)]="firstname" placeholder="Введи имя">
     <p>Привет, {{ firstname }}</p> -->
