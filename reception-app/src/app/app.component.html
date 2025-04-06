@@ -1,11 +1,37 @@
 <!--{{ Интерполяция }} 
  не позволяет обновить поля в представилении при изменении значений в компоненте -->
-<span>{{ title }}</span>
-<input type="text" title="{{tooltipe}}"> Подсказка не обновляется
+<!-- <span>{{ title }}</span>
+<input type="text" title="{{tooltipe}}"> Подсказка не обновляется -->
 <!-- Одностороннее связывание "компонент" => "представление" 
  (автоматически обновляет значение)-->
-<input type="text" [title]="tooltipe"> Подсказка автоматически обновляется при изменении в компоненте
+<!-- <input type="text" [title]="tooltipe"> Подсказка автоматически обновляется при изменении в компоненте
+<input type="text" [(ngModel)]="tooltipe"> Подсказка автоматически обновляется при изменении в компоненте
 
-<button (click)="showMessage()">Нажимай меня</button>
+<button (click)="showMessage()">Нажимай меня</button> -->
 <!-- Новый компонент -->
 <app-component-learn></app-component-learn>
+
+<!-- 
+<input type="text" title="{{tooltipe}}">
+<input type="text" [title]="tooltipe">
+<input type="text" [(ngModel)]="tooltipe"> 
+
+<h2>1. Интерполяция</h2>
+<input type="text" title="{{tooltipe}}" placeholder="Введите текст">
+<p>Title: {{tooltipe}}</p>
+
+
+<h2>2. Связывание свойств</h2>
+<input type="text" [title]="tooltipe" placeholder="Введите текст">
+<p>Title: {{tooltipe}}</p>
+
+
+<h2>3. Двустороннее связывание</h2>
+<input type="text" [(ngModel)]="tooltipe" placeholder="Введите текст">
+<p>Title: {{tooltipe}}</p>
+
+
+<h2>Текущая переменная tooltipe:</h2>
+<p>{{tooltipe}}</p>
+
+<button (click)="changeText()">Жмяк</button> -->

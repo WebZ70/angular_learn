@@ -13,6 +13,10 @@ export class AppComponent {
   public tooltipe = 'Здесь могла быть ваша подсказка'
 
   public showMessage(){
-    alert('Привет! Зачем нажал!');
+    alert('Привет, дурачок! Зачем нажал!');
+  }
+
+  public changeText(){
+    this.tooltipe = 'Ну ты дэбил'
   }
 }
